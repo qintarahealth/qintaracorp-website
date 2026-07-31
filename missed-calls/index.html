@@ -295,7 +295,7 @@
   // 1) Inbound-webhook trigger URL (captures the lead + fires round-robin/notify). Empty = email fallback.
   var LEAD_WEBHOOK = "";
   // 2) Calendar booking widget URL (the "15-min intro" calendar). Empty = "we'll reach out" message.
-  var BOOKING_URL = "";
+  var BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/mh6leaC7ndp9kaMOqn1F";
   var modal = document.getElementById('modal');
   function lostText(){ var e = document.getElementById('lostYr'); return e ? e.textContent : ''; }
   function openM(){
@@ -330,12 +330,9 @@
       }
     }
     if (LEAD_WEBHOOK){
-      fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).then(done).catch(done);
-    } else {
-      var body = encodeURIComponent('New lead from the missed-call calculator:\n\nName: ' + data.first + '\nCompany: ' + data.company + '\nPhone: ' + data.phone + '\nEmail: ' + data.email + '\nTrade: ' + data.trade + '\nEstimated annual loss: ' + data.est_annual_loss);
-      window.location.href = 'mailto:hello@qintaracorp.com?subject=' + encodeURIComponent('New lead: ' + data.company) + '&body=' + body;
-      done();
+      fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(function(){});
     }
+    done();
   });
 })();
 </script>
