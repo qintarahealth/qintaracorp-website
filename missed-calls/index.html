@@ -320,13 +320,13 @@
       document.getElementById('mDone').style.display = '';
       if (BOOKING_URL){
         document.querySelector('#mDone .big').textContent = 'Pick a time that works';
-        document.getElementById('mDoneMsg').textContent = 'Grab a 15-minute slot below and we\u2019ll have your numbers ready.';
+        document.getElementById('mDoneMsg').textContent = 'Your numbers are worked out live on the call. Grab a 15 minute slot below and we’ll walk you through them.';
         var q = 'first_name=' + encodeURIComponent(data.first) + '&email=' + encodeURIComponent(data.email) + '&phone=' + encodeURIComponent(data.phone);
         var mb = document.getElementById('mBook');
         mb.innerHTML = '<iframe title="Book a time" src="' + BOOKING_URL + (BOOKING_URL.indexOf('?') > -1 ? '&' : '?') + q + '" style="width:100%;min-height:560px;border:0;border-radius:12px;background:#fff"></iframe>';
         mb.style.display = '';
       } else {
-        document.getElementById('mDoneMsg').textContent = 'Thanks ' + data.first + ', we\u2019ll reach out within the hour.';
+        document.getElementById('mDoneMsg').textContent = 'Thanks ' + data.first + '. Pick a time that suits you and we’ll go through your numbers together.';
       }
     }
     if (LEAD_WEBHOOK){
