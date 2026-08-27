@@ -292,8 +292,8 @@
 <script>
 (function(){
   // GO-LIVE CONFIG — paste these two from the GHL "Qintara Outreach" sub-account, then redeploy.
-  // 1) Inbound-webhook trigger URL (captures the lead + fires round-robin/notify). Empty = email fallback.
-  var LEAD_WEBHOOK = "";
+  // 1) Lead capture endpoint. n8n -> GHL "Qintara Outreach" upsert + note. Empty = the lead is DISCARDED (there is no email fallback).
+  var LEAD_WEBHOOK = "https://maya-tools.hewhealth.com/webhook/qintara-corp-lead";
   // 2) Calendar booking widget URL (the "15-min intro" calendar). Empty = "we'll reach out" message.
   var BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/mh6leaC7ndp9kaMOqn1F";
   var modal = document.getElementById('modal');
@@ -330,7 +330,7 @@
       }
     }
     if (LEAD_WEBHOOK){
-      fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(function(){});
+      fetch(LEAD_WEBHOOK, { method:'POST', keepalive:true, headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(function(){});
     }
     done();
   });

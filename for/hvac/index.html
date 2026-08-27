@@ -205,14 +205,14 @@ footer a{color:var(--gold)}
 
 <script>
 // ---- lead capture (posts to GHL webhook if set, then sends to /book) ----
-var LEAD_WEBHOOK = ""; // paste GHL inbound-webhook URL to capture non-bookers
+var LEAD_WEBHOOK = "https://maya-tools.hewhealth.com/webhook/qintara-corp-lead"; // n8n -> GHL "Qintara Outreach" upsert. Captures non-bookers.
 document.querySelectorAll('.js-book').forEach(function(b){ b.addEventListener('click',function(){ qtrack('book_click'); }); });
 document.getElementById('leadForm').addEventListener('submit',function(e){
   e.preventDefault(); var f=e.target;
   if(!f.name.value||!f.company.value||!f.phone.value||!f.email.value){ f.reportValidity&&f.reportValidity(); return; }
   var data={name:f.name.value,company:f.company.value,phone:f.phone.value,email:f.email.value,vertical:f.vertical.value,source:f.source.value,ts:new Date().toISOString()};
   qtrack('lead_submit');
-  if(LEAD_WEBHOOK){ fetch(LEAD_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){}); }
+  if(LEAD_WEBHOOK){ fetch(LEAD_WEBHOOK,{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){}); }
   document.getElementById('cForm').style.display='none';
   document.getElementById('cOk').style.display='block';
   var q='first_name='+encodeURIComponent(data.name)+'&email='+encodeURIComponent(data.email)+'&phone='+encodeURIComponent(data.phone);
