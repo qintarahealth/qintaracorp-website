@@ -205,7 +205,7 @@ footer a{color:var(--gold)}
 
 <script>
 // ---- lead capture (posts to GHL webhook if set, then sends to /book) ----
-var LEAD_WEBHOOK = "https://maya-tools.hewhealth.com/webhook/qintara-corp-lead"; // n8n -> GHL "Qintara Outreach" upsert. Captures non-bookers.
+var LEAD_WEBHOOK = "https://api.qintarahealth.com/webhooks/qintara-corp/lead"; // n8n -> GHL "Qintara Outreach" upsert. Captures non-bookers.
 document.querySelectorAll('.js-book').forEach(function(b){ b.addEventListener('click',function(){ qtrack('book_click'); }); });
 document.getElementById('leadForm').addEventListener('submit',function(e){
   e.preventDefault(); var f=e.target;
