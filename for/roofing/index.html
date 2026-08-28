@@ -221,7 +221,7 @@ document.getElementById('leadForm').addEventListener('submit',function(e){
 // ---- analytics scaffold (GA4). Set GA4_ID to go live. Events fire regardless via dataLayer. ----
 window.dataLayer=window.dataLayer||[];
 function qtrack(ev){ try{ window.dataLayer.push({event:ev,vertical:'Roofing'}); }catch(e){} }
-var GA4_ID=""; // e.g. G-XXXXXXXXXX
+var GA4_ID="G-H4CEDXG1LF";
 if(GA4_ID){
   var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(s);
   function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config',GA4_ID);

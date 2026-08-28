@@ -337,5 +337,16 @@
 })();
 </script>
 
+<script>
+// ---- analytics (GA4). Matches the scaffold on the /for/* pages. ----
+window.dataLayer=window.dataLayer||[];
+function qtrack(ev){ try{ window.dataLayer.push({event:ev,vertical:'calculator'}); }catch(e){} }
+var GA4_ID="G-H4CEDXG1LF";
+if(GA4_ID){
+  var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(s);
+  function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config',GA4_ID);
+}
+qtrack('page_view');
+</script>
 </body>
 </html>
