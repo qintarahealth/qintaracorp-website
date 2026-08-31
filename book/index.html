@@ -63,6 +63,9 @@ iframe{width:100%;min-height:720px;border:0;border-radius:12px;background:#fff;d
 @keyframes qspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.cal-spin{animation:none}}
 .fallback{text-align:center;padding:16px;color:var(--muted);font-size:14px}
+.sms-consent{max-width:680px;margin:26px auto 0;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink2);font-size:13px;line-height:1.7}
+.sms-consent h2{font-size:14px;font-weight:600;color:var(--ink);margin:0 0 8px}
+.sms-consent a{color:var(--gold-deep)}
 .fallback a{color:var(--gold-deep)}
 footer{border-top:1px solid var(--line);padding:22px 0 46px;text-align:center;color:var(--muted);font-size:13px}
 footer a{color:var(--gold-deep);text-decoration:none}
@@ -93,16 +96,20 @@ footer a{color:var(--gold-deep);text-decoration:none}
     <div class="cal-shell">
       <div class="cal-wrap">
         <div class="cal-loading" id="calLoading"><div class="cal-spin"></div><p>Loading your calendar&hellip;</p></div>
-        <iframe src="https://api.leadconnectorhq.com/widget/booking/mh6leaC7ndp9kaMOqn1F"
+        <iframe src="https://api.leadconnectorhq.com/widget/booking/zoq40XfNaSmFGE68Zu9o"
           title="Book a call with Qintara" scrolling="no" id="qbook" onload="qCalReady()"></iframe>
       </div>
       <p class="fallback">Calendar not loading? Email <a href="mailto:hello@qintaracorp.com">hello@qintaracorp.com</a> and we'll find a time.</p>
+      <div class="sms-consent">
+        <h2>About text messages</h2>
+        <p>By giving us your mobile number when you book, you agree to receive appointment confirmations and reminders by text from Qintara Corp at that number. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. See our <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms of Service</a>. We do not sell or share your mobile number or your consent to text messaging with anyone.</p>
+      </div>
     </div>
   </div>
 </main>
 
 <footer>
-  <div class="wrap">Qintara · <a href="/">Back to home</a></div>
+  <div class="wrap">Qintara · <a href="/">Back to home</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></div>
 </footer>
 
 <script>
