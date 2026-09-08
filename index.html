@@ -393,7 +393,30 @@
     box-shadow: 0 8px 18px -12px rgba(0,0,0,.4); transition: transform .25s ease; }
   .cat-ic svg { width: 30px; height: 30px; }
   .card:hover .cat-ic { transform: translateY(-2px) scale(1.06); }
-</style>
+
+    /* contact form */
+    .contact-box{max-width:760px;margin:28px auto 0;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:34px 30px;text-align:left}
+    .contact-head{margin-bottom:22px}
+    .contact-head h3{margin:0 0 6px;font-size:22px}
+    .contact-head p{margin:0}
+    .cpair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:640px){.cpair{grid-template-columns:1fr}}
+    .cfield{margin-bottom:16px}
+    .cfield label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+    .cfield .opt{font-weight:400;color:var(--fg-dim)}
+    .cfield input,.cfield select,.cfield textarea{width:100%;font:inherit;font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px 13px;outline:none}
+    .cfield input:focus,.cfield select:focus,.cfield textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+    .cfield textarea{resize:vertical}
+    .cerr{display:none;margin:6px 0 0;font-size:13px;color:var(--accent)}
+    .cfield.bad input,.cfield.bad select{border-color:var(--accent)}
+    .cfield.bad .cerr{display:block}
+    .cformerr{display:none;margin:0 0 14px;font-size:14px;color:var(--accent)}
+    .cpot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+    .cfine{font-size:13px;margin:14px 0 0}
+    .cfine a{color:var(--accent)}
+    .cthanks{display:none;text-align:center;padding:18px 0}
+    .cthanks h3{margin:0 0 6px;font-size:22px}
+  </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="gAu" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F1C86B"/><stop offset=".55" stop-color="#D2A03C"/><stop offset="1" stop-color="#A9781F"/></linearGradient>
@@ -636,6 +659,67 @@
         <div class="hero-cta">
           <a class="btn btn-primary" href="/book/">Book a strategy call →</a>
           <a class="btn btn-ghost" href="#build">Browse the catalog</a>
+        </div>
+      </div>
+
+      <div class="contact-box">
+        <div class="contact-head">
+          <h3>Not ready for a call? Write instead.</h3>
+          <p class="muted">Tell us the task. We read every one and reply within one business day.</p>
+        </div>
+
+        <form id="contactForm" novalidate>
+          <div class="cpair">
+            <div class="cfield" id="f-name">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Jane Whitfield">
+              <p class="cerr">Please tell us your name.</p>
+            </div>
+            <div class="cfield" id="f-company">
+              <label for="company">Company <span class="opt">optional</span></label>
+              <input id="company" name="company" type="text" autocomplete="organization" placeholder="Whitfield Plumbing">
+            </div>
+          </div>
+
+          <div class="cpair">
+            <div class="cfield" id="f-email">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="jane@company.com">
+              <p class="cerr">That email does not look right.</p>
+            </div>
+            <div class="cfield" id="f-phone">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(850) 555-0134">
+              <p class="cerr">Please add a phone number.</p>
+            </div>
+          </div>
+
+          <div class="cfield" id="f-topic">
+            <label for="topic">What would you hand off first?</label>
+            <select id="topic" name="topic">
+              <option value="missed-calls">Answering calls we keep missing</option>
+              <option value="follow-up">Following up with leads</option>
+              <option value="scheduling">Booking and scheduling</option>
+              <option value="admin">Repetitive admin work</option>
+              <option value="custom">Something specific to us</option>
+              <option value="other">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="cfield" id="f-message">
+            <label for="message">Anything else <span class="opt">optional</span></label>
+            <textarea id="message" name="message" rows="3" placeholder="We miss about 20 calls a week and lose most of them."></textarea>
+          </div>
+
+          <p class="cformerr" id="formErr">Please give us an email or a phone number so we can reply.</p>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="cpot">
+          <button class="btn btn-primary" type="submit" id="submitBtn">Send it</button>
+          <p class="muted cfine">We never sell or share what you send us. Prefer to talk now? Call <a href="tel:+18508426692">(850) 842-6692</a>, Monday to Friday, 9am to 6pm Central.</p>
+        </form>
+
+        <div id="thanks" class="cthanks">
+          <h3>Got it.</h3>
+          <p class="muted">We will come back to you within one business day. If it is urgent, call (850) 842-6692.</p>
         </div>
       </div>
     </div>
@@ -947,6 +1031,61 @@
   resize();
   if (!reduce) step(); else { /* draw one static frame */ step(); cancelAnimationFrame(raf); }
   addEventListener('resize', function () { resize(); });
+})();
+</script>
+<script>
+(function(){
+  // Lead capture for qintaracorp.com. Posts to the same deployed endpoint the
+  // health site uses; CORS on it already allows this origin (verified).
+  var ENDPOINT = 'https://api.qintarahealth.com/webhooks/qintara-corp/lead';
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+  var btn = document.getElementById('submitBtn');
+  var thanks = document.getElementById('thanks');
+  var formErr = document.getElementById('formErr');
+  // val() and setBad() tolerate a missing element ON PURPOSE. A typo in one id
+  // once threw inside this handler, killed the submission, and showed the
+  // visitor nothing at all -- a form that looked perfect and was silently dead.
+  // Losing one optional field is survivable. Losing the lead is not.
+  function val(id){ var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
+  function setBad(id, bad){ var el = document.getElementById(id); if (el) el.classList.toggle('bad', !!bad); }
+  ['name','email','phone'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function(){ setBad('f-'+id, false); if (formErr) formErr.style.display='none'; });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (formErr) formErr.style.display = 'none';
+    var name = val('name'), email = val('email'), phone = val('phone'), ok = true;
+    setBad('f-name', !name); if(!name) ok = false;
+    var emailOk = !email || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    setBad('f-email', !emailOk); if(!emailOk) ok = false;
+    if(!email && !phone){ if (formErr) formErr.style.display='block'; setBad('f-email',true); setBad('f-phone',true); ok = false; }
+    if(!ok) return;
+    // Honeypot: a bot fills every field it finds. Pretend success, send nothing.
+    if (val('website')) { form.style.display='none'; if (thanks) thanks.style.display='block'; return; }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name, email: email, phone: phone,
+        company: val('company'),
+        vertical: val('topic'),
+        message: val('message'),
+        source: 'qintaracorp-contact-page',
+        page: location.href,
+        ts: new Date().toISOString()
+      })
+    }).then(function(r){
+      if (!r.ok) throw new Error('http ' + r.status);
+      form.style.display = 'none';
+      if (thanks) { thanks.style.display = 'block'; thanks.scrollIntoView({behavior:'smooth', block:'center'}); }
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = 'Send it';
+      if (formErr) { formErr.textContent = 'That did not go through. Please call (850) 842-6692 and we will sort it out.'; formErr.style.display = 'block'; }
+    });
+  });
 })();
 </script>
 </body>
