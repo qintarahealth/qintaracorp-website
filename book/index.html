@@ -54,14 +54,12 @@ h1{font-family:var(--disp);font-weight:700;letter-spacing:-.02em;line-height:1.0
 .assure span{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);
   border-radius:999px;padding:6px 13px}
 .cal-shell{background:var(--panel);border:1px solid var(--line);border-radius:16px;
-  margin:26px auto 40px;padding:8px;box-shadow:0 10px 40px rgba(11,18,32,.06)}
-.cal-wrap{position:relative;min-height:720px;border-radius:12px;overflow:hidden}
-iframe{width:100%;min-height:720px;border:0;border-radius:12px;background:#fff;display:block;position:relative;z-index:2;opacity:0;transition:opacity .45s ease}
-.cal-loading{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--panel);color:var(--muted);transition:opacity .4s ease}
-.cal-loading p{margin:0;font-family:var(--body);font-size:14px;letter-spacing:.01em}
-.cal-spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:qspin .8s linear infinite}
-@keyframes qspin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.cal-spin{animation:none}}
+  margin:26px auto 40px;padding:34px 22px 18px;box-shadow:0 10px 40px rgba(11,18,32,.06);text-align:center}
+.book-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#1a1204;font-family:var(--disp);font-weight:700;font-size:18px;text-decoration:none;padding:16px 30px;border-radius:999px;box-shadow:0 10px 26px -12px rgba(198,149,47,.75);transition:transform .15s ease}
+.book-btn:hover{transform:translateY(-2px)}
+.book-btn:focus-visible{outline:3px solid var(--gold-deep);outline-offset:3px}
+.book-note{color:var(--muted);font-size:14px;margin:14px auto 0;max-width:46ch}
+@media (prefers-reduced-motion:reduce){.book-btn{transition:none}.book-btn:hover{transform:none}}
 .fallback{text-align:center;padding:16px;color:var(--muted);font-size:14px}
 .sms-consent{max-width:680px;margin:26px auto 0;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink2);font-size:13px;line-height:1.7}
 .sms-consent h2{font-size:14px;font-weight:600;color:var(--ink);margin:0 0 8px}
@@ -95,12 +93,9 @@ footer a{color:var(--gold-deep);text-decoration:none}
     </div>
 
     <div class="cal-shell">
-      <div class="cal-wrap">
-        <div class="cal-loading" id="calLoading"><div class="cal-spin"></div><p>Loading your calendar&hellip;</p></div>
-        <iframe src="https://api.leadconnectorhq.com/widget/booking/zoq40XfNaSmFGE68Zu9o"
-          title="Book a call with Qintara" scrolling="no" id="qbook" onload="qCalReady()"></iframe>
-      </div>
-      <p class="fallback">Calendar not loading? Email <a href="mailto:hello@qintaracorp.com">hello@qintaracorp.com</a> and we'll find a time.</p>
+      <a class="book-btn" href="https://outlook.office.com/bookwithme/user/eff2517a0a6f4a849ecec3e753022cec@QintaraHealth.com/meetingtype/_95u2J58c0S5hy69DIi0dA2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">See open times &rarr;</a>
+      <p class="book-note">Opens our calendar in a new tab. Choose <strong>Continue as guest</strong>, pick a time, and you'll get a confirmation email right away. No account needed.</p>
+      <p class="fallback">Link not working? Email <a href="mailto:hello@qintaracorp.com">hello@qintaracorp.com</a> and we'll find a time.</p>
       <div class="sms-consent">
         <h2>About text messages</h2>
         <p>By giving us your mobile number when you book, you agree to receive appointment confirmations and reminders by text from Qintara Corp at that number. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. See our <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms of Service</a>. We do not sell or share your mobile number or your consent to text messaging with anyone. Full detail on how we collect consent is on our <a href="/sms-opt-in/">SMS opt-in page</a>.</p>
@@ -113,10 +108,5 @@ footer a{color:var(--gold-deep);text-decoration:none}
   <div class="wrap">Qintara · <a href="tel:+18508426692">(850) 842-6692</a> · <a href="/">Back to home</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></div>
 </footer>
 
-<script>
-  function qCalReady(){var f=document.getElementById('qbook'),l=document.getElementById('calLoading');if(f)f.style.opacity=1;if(l){l.style.opacity=0;setTimeout(function(){l.style.display='none';},450);}}
-  setTimeout(qCalReady,7000);
-</script>
-<script src="https://link.msgsndr.com/js/form_embed.js" async></script>
 </body>
 </html>

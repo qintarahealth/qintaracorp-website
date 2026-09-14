@@ -294,8 +294,9 @@
   // GO-LIVE CONFIG — paste these two from the GHL "Qintara Outreach" sub-account, then redeploy.
   // 1) Lead capture endpoint. n8n -> GHL "Qintara Outreach" upsert + note. Empty = the lead is DISCARDED (there is no email fallback).
   var LEAD_WEBHOOK = "https://api.qintarahealth.com/webhooks/qintara-corp/lead";
-  // 2) Calendar booking widget URL (the "30-min intro" calendar). Empty = "we'll reach out" message.
-  var BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/zoq40XfNaSmFGE68Zu9o";
+  // 2) Booking page for the 30-min intro call (Microsoft Bookings). Microsoft blocks
+  //    embedding it on other sites, so it opens in a new tab. Empty = "we'll reach out" message.
+  var BOOKING_URL = "https://outlook.office.com/bookwithme/user/eff2517a0a6f4a849ecec3e753022cec@QintaraHealth.com/meetingtype/_95u2J58c0S5hy69DIi0dA2?anonymous&ismsaljsauthenabled";
   var modal = document.getElementById('modal');
   function lostText(){ var e = document.getElementById('lostYr'); return e ? e.textContent : ''; }
   function openM(){
@@ -320,11 +321,11 @@
       document.getElementById('mDone').style.display = '';
       if (BOOKING_URL){
         document.querySelector('#mDone .big').textContent = 'Pick a time that works';
-        document.getElementById('mDoneMsg').textContent = 'Your numbers are worked out live on the call. Grab a 30 minute slot below and we’ll walk you through them.';
-        var q = 'first_name=' + encodeURIComponent(data.first) + '&email=' + encodeURIComponent(data.email) + '&phone=' + encodeURIComponent(data.phone);
+        document.getElementById('mDoneMsg').textContent = 'Your numbers are worked out live on the call. Pick a 30-minute slot (choose “Continue as guest”, no account needed) and we’ll walk you through them.';
         var mb = document.getElementById('mBook');
-        mb.innerHTML = '<iframe title="Book a time" src="' + BOOKING_URL + (BOOKING_URL.indexOf('?') > -1 ? '&' : '?') + q + '" style="width:100%;min-height:560px;border:0;border-radius:12px;background:#fff"></iframe>';
+        mb.innerHTML = '<a class="btn btn-primary" href="' + BOOKING_URL + '" target="_blank" rel="noopener" style="margin-top:0">See open times &rarr;</a>';
         mb.style.display = '';
+        var ba = mb.querySelector('a'); if (ba) ba.addEventListener('click', function(){ if (typeof qtrack === 'function') qtrack('book_click'); });
       } else {
         document.getElementById('mDoneMsg').textContent = 'Thanks ' + data.first + '. Pick a time that suits you and we’ll go through your numbers together.';
       }
