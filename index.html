@@ -626,7 +626,7 @@
           <h2 style="font-size:clamp(28px,4.4vw,44px); margin:20px 0 0;">We built a whole company on our own platform.</h2>
           <p class="muted" style="font-size:18px; margin-top:18px;">Qintara Health is a full clinical operating system running live in real clinics: an AI medical scribe, an outreach agent that texts and books patients, scheduling, e-prescribing, contracts, and billing. It's the proof that these automations hold up under HIPAA, real patients, and real money.</p>
           <p class="muted" style="font-size:18px; margin-top:14px;">If we can automate a doctor's office, we can automate yours.</p>
-          <a class="btn btn-ghost" style="margin-top:26px;" href="#contact">See the healthcare platform →</a>
+          <a class="btn btn-ghost" style="margin-top:26px;" href="https://qintarahealth.com/" target="_blank" rel="noopener">See the healthcare platform →</a>
         </div>
         <div class="case-metrics reveal">
           <div class="metric"><div class="n">100%</div><div class="l">Of visits captured by the AI scribe</div></div>
@@ -1087,6 +1087,16 @@
     });
   });
 })();
+</script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function qtrack(ev){ try{ window.dataLayer.push({event:ev,page:'home'}); }catch(e){} }
+var GA4_ID="G-H4CEDXG1LF";
+if(GA4_ID){
+  var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(s);
+  function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config',GA4_ID);
+}
+qtrack('page_view');
 </script>
 </body>
 </html>
