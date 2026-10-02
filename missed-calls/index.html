@@ -331,19 +331,32 @@
         document.getElementById('mDoneMsg').textContent = 'Thanks ' + data.first + '. Pick a time that suits you and we’ll go through your numbers together.';
       }
     }
+    var subId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2);
+    data.submission_id = subId;
     var sendBtn = f.querySelector('button[type=submit]'); var errBox = document.getElementById('mErr');
     function failed(){
       qtrack('lead_failed');
       if (sendBtn){ sendBtn.disabled = false; sendBtn.textContent = 'Try that again'; }
+      try{ console.warn('lead post failed after '+attempt+' attempts, submission '+subId); }catch(e){}
       if (errBox){ errBox.textContent = 'That did not reach us. Please call (850) 842-6692 or email hello@qintaracorp.com and we will pick it up from there.'; errBox.style.display = 'block'; }
     }
     if (sendBtn){ sendBtn.disabled = true; }
     if (errBox){ errBox.style.display = 'none'; }
-    if (LEAD_WEBHOOK){
-      fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
-        .then(function(r){ if (r.ok){ done(); } else { failed(); } })
-        .catch(failed);
-    } else { failed(); }
+    var attempt = 0;
+    function postLead(){
+      attempt++;
+      fetch(LEAD_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+        .then(function(r){
+          if(r.ok){ done(); return; }
+          if(r.status>=500 && attempt<3){ setTimeout(postLead, attempt===1?2000:6000); return; }
+          failed();
+        })
+        .catch(function(){
+          if(attempt<3){ setTimeout(postLead, attempt===1?2000:6000); return; }
+          failed();
+        });
+    }
+    if (LEAD_WEBHOOK){ postLead(); } else { failed(); }
   });
 })();
 </script>

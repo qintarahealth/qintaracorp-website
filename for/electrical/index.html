@@ -213,6 +213,8 @@ document.getElementById('leadForm').addEventListener('submit',function(e){
   if(!f.name.value||!f.company.value||!f.phone.value||!f.email.value){ f.reportValidity&&f.reportValidity(); return; }
   var data={name:f.name.value,company:f.company.value,phone:f.phone.value,email:f.email.value,vertical:f.vertical.value,source:f.source.value,ts:new Date().toISOString()};
   qtrack('lead_submit');
+  var subId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2);
+  data.submission_id = subId;
   var sendBtn=f.querySelector('button[type=submit]'); var errBox=document.getElementById('cErr');
   function leadSent(){
     document.getElementById('cForm').style.display='none';
@@ -222,15 +224,26 @@ document.getElementById('leadForm').addEventListener('submit',function(e){
   function leadFailed(){
     qtrack('lead_failed');
     if(sendBtn){ sendBtn.disabled=false; sendBtn.textContent='Try that again'; }
+    try{ console.warn('lead post failed after '+attempt+' attempts, submission '+subId); }catch(e){}
     if(errBox){ errBox.textContent='That did not reach us. Please call (850) 842-6692 or email hello@qintaracorp.com and we will pick it up from there.'; errBox.style.display='block'; }
   }
   if(sendBtn){ sendBtn.disabled=true; }
   if(errBox){ errBox.style.display='none'; }
-  if(LEAD_WEBHOOK){
+  var attempt = 0;
+  function postLead(){
+    attempt++;
     fetch(LEAD_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
-      .then(function(r){ if(r.ok){ leadSent(); } else { leadFailed(); } })
-      .catch(leadFailed);
-  } else { leadFailed(); }
+      .then(function(r){
+        if(r.ok){ leadSent(); return; }
+        if(r.status>=500 && attempt<3){ setTimeout(postLead, attempt===1?2000:6000); return; }
+        leadFailed();
+      })
+      .catch(function(){
+        if(attempt<3){ setTimeout(postLead, attempt===1?2000:6000); return; }
+        leadFailed();
+      });
+  }
+  if(LEAD_WEBHOOK){ postLead(); } else { leadFailed(); }
 });
 // ---- analytics scaffold (GA4). Set GA4_ID to go live. Events fire regardless via dataLayer. ----
 window.dataLayer=window.dataLayer||[];
