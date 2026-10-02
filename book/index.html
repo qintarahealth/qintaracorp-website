@@ -108,5 +108,15 @@ footer a{color:var(--gold-deep);text-decoration:none}
   <div class="wrap">Qintara · <a href="tel:+18508426692">(850) 842-6692</a> · <a href="/">Back to home</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></div>
 </footer>
 
+<script>
+window.dataLayer=window.dataLayer||[];
+function qtrack(ev){ try{ window.dataLayer.push({event:ev,page:'book'}); }catch(e){} }
+var GA4_ID="G-H4CEDXG1LF";
+if(GA4_ID){
+  var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;document.head.appendChild(s);
+  function gtag(){dataLayer.push(arguments);} gtag('js',new Date()); gtag('config',GA4_ID);
+}
+qtrack('page_view');
+</script>
 </body>
 </html>

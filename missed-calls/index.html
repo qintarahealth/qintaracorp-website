@@ -238,6 +238,7 @@
         <div><label for="lf5">Trade</label><select id="lf5" name="trade"><option>HVAC</option><option>Plumbing</option><option>Electrical</option><option>Roofing</option><option>Garage / Door</option><option>Other</option></select></div>
         <button class="btn btn-primary" type="submit" style="justify-content:center;margin-top:6px;">Get my call &rarr;</button>
       </form>
+      <p id="mErr" role="alert" style="display:none;margin-top:12px;color:#c0392b;font-size:14px;line-height:1.5"></p>
     </div>
     <div id="mDone" class="modal-ok" style="display:none;">
       <div class="big">Got it. Talk soon.</div>
@@ -250,7 +251,7 @@
 
 <footer><div class="wrap foot">
   <span>&copy; 2026 Qintara Corp. We help home-service shops stop losing jobs to missed calls.</span>
-  <span class="mono">hello@qintaracorp.com</span>
+  <span class="mono"><a href="mailto:hello@qintaracorp.com">hello@qintaracorp.com</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></span>
 </div></footer>
 
 <script>
@@ -330,10 +331,19 @@
         document.getElementById('mDoneMsg').textContent = 'Thanks ' + data.first + '. Pick a time that suits you and we’ll go through your numbers together.';
       }
     }
-    if (LEAD_WEBHOOK){
-      fetch(LEAD_WEBHOOK, { method:'POST', keepalive:true, headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(function(){});
+    var sendBtn = f.querySelector('button[type=submit]'); var errBox = document.getElementById('mErr');
+    function failed(){
+      qtrack('lead_failed');
+      if (sendBtn){ sendBtn.disabled = false; sendBtn.textContent = 'Try that again'; }
+      if (errBox){ errBox.textContent = 'That did not reach us. Please call (850) 842-6692 or email hello@qintaracorp.com and we will pick it up from there.'; errBox.style.display = 'block'; }
     }
-    done();
+    if (sendBtn){ sendBtn.disabled = true; }
+    if (errBox){ errBox.style.display = 'none'; }
+    if (LEAD_WEBHOOK){
+      fetch(LEAD_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
+        .then(function(r){ if (r.ok){ done(); } else { failed(); } })
+        .catch(failed);
+    } else { failed(); }
   });
 })();
 </script>
